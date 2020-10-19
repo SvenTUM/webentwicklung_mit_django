@@ -41,7 +41,7 @@ class BlogPostTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<title>Blog | Index</title>')
 
-    def test_has_post(self):
+    def test_has_posts(self):
         """
         Should render posts, who have a publish date in the past.
         """
@@ -49,6 +49,7 @@ class BlogPostTestCase(TestCase):
         response = c.get('/')
         filtered_post = BlogPost.objects.get(pk=4)
         self.assertEqual(response.context["blogposts"][1], filtered_post)
+        self.assertEqual(response.context["blogposts"].count(), 3)
 
     def test_first_post_is_newsest(self):
         """
