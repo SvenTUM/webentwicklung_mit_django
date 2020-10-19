@@ -20,7 +20,6 @@ class BlogPostTestCase(TestCase):
                                      date_created=timezone.now() - timezone.timedelta(days=-1), date_publish=timezone.now() + timezone.timedelta(days=-1))
         b5 = BlogPost.objects.create(title="Fifth Post", text="Already published Post.", author="Foo",
                                      date_created=timezone.now() - timezone.timedelta(days=-2), date_publish=timezone.now() + timezone.timedelta(days=-1))
-        c = Client()
 
     def test_object_count(self):
         count = BlogPost.objects.count()
