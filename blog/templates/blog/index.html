@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>Blog Posts</h1>
+    {% for blogpost in blogposts %}
     <article>
         <h2>{{ blogpost.title }}</h2>
         <i>Posted {{ blogpost.date_created }}</i>
@@ -13,5 +14,6 @@
             {{ blogpost.text }}
         </div>
     </article>
+    {% endfor %}
 </body>
 </html>

@@ -1,13 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 
 from .models import BlogPost
 
 
 # Create your views here.
 def index(request):
-    first_post = BlogPost.objects.first()
+    filtered_posts = BlogPost.objects.filter(date_publish__lte=timezone.now()).order_by('-date_created')
     context = {
-        'blogpost': first_post,
+        'blogposts': filtered_posts,
     }
     return render(request, 'blog/index.html', context=context)
