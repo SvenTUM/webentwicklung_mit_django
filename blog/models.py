@@ -11,3 +11,6 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return f"#{self.id} - {self.title}"
+
+    def word_count(self):
+        return len(self.text.split())

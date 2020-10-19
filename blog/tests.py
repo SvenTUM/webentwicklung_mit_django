@@ -30,6 +30,10 @@ class BlogPostTestCase(TestCase):
         obj = BlogPost.objects.get(pk=1)
         self.assertEqual(str(obj), "#1 - First Post")
 
+    def test_object_word_count(self):
+        obj = BlogPost.objects.get(pk=5)
+        self.assertEqual(obj.word_count(), 3)
+
     #
     # Views
     #
