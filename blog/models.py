@@ -8,3 +8,6 @@ class BlogPost(models.Model):
     author = models.CharField(max_length=100)  # TODO: reference User Class
     date_created = models.DateTimeField(auto_created=True, auto_now_add=True)
     date_publish = models.DateTimeField()
+
+    def __str__(self):
+        return f"#{self.id} - {self.title}"

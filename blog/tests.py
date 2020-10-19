@@ -26,6 +26,10 @@ class BlogPostTestCase(TestCase):
         count = BlogPost.objects.count()
         self.assertEqual(count, 5)
 
+    def test_object_str(self):
+        obj = BlogPost.objects.get(pk=1)
+        self.assertEqual(str(obj), "#1 - First Post")
+
     #
     # Views
     #
@@ -95,3 +99,4 @@ class BlogPostTestCase(TestCase):
         c = Client()
         response = c.get('/detail/3/')
         self.assertContains(response, '<a href="/">Landing Page</a>')
+
