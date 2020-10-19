@@ -64,7 +64,6 @@ class BlogPostTestCase(TestCase):
         """
         c = Client()
         response = c.get('/')
-        listed_post = BlogPost.objects.get(pk=3)
         self.assertContains(response, 'href="/detail/3/"')
 
     # Detail
@@ -92,5 +91,4 @@ class BlogPostTestCase(TestCase):
         """
         c = Client()
         response = c.get('/detail/3/')
-        self.assertContains(response, '<a href="/"')
-        
+        self.assertContains(response, '<a href="/">Landing Page</a>')
