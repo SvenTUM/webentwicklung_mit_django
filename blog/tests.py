@@ -26,7 +26,13 @@ class BlogPostTestCase(TestCase):
         count = BlogPost.objects.count()
         self.assertEqual(count, 5)
 
-    def test_index(self):
+    #
+    # Views
+    #
+
+    # Index
+
+    def test_index_response(self):
         """
         Page should be available to anybody.
         """
@@ -51,3 +57,40 @@ class BlogPostTestCase(TestCase):
         response = c.get('/')
         first_listed_post = BlogPost.objects.get(pk=5)
         self.assertEqual(response.context["blogposts"][0], first_listed_post)
+
+    def test_post_link_detail(self):
+        """
+        Should link to it's detail page.
+        """
+        c = Client()
+        response = c.get('/')
+        listed_post = BlogPost.objects.get(pk=3)
+        self.assertContains(response, 'href="/detail/3/"')
+
+    # Detail
+
+    def test_detail_response(self):
+        """
+        Page should be available to anybody.
+        """
+        c = Client()
+        response = c.get('/detail/3/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_has_requested_post(self):
+        """
+        Should render posts, who have a publish date in the past.
+        """
+        c = Client()
+        response = c.get('/detail/3/')
+        post = BlogPost.objects.get(pk=3)
+        self.assertEqual(response.context["blogpost"], post)
+
+    def test_has_link_to_index(self):
+        """
+        Should link back to landing page.
+        """
+        c = Client()
+        response = c.get('/detail/3/')
+        self.assertContains(response, '<a href="/"')
+        

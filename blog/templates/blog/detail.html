@@ -6,17 +6,13 @@
 </head>
 <body>
     <h1>Blog Posts</h1>
-    {% for blogpost in blogposts %}
+    <nav><a href="{% url 'index' %}"></a></nav>
     <article>
-        <h2>
-            <a href="{% url 'detail' blogpost.id %}">
-            {{ blogpost.title }}</a>
-        </h2>
+        <h2>{{ blogpost.title }}</h2>
         <i>Posted {{ blogpost.date_created }}</i>
         <div>
             {{ blogpost.text }}
         </div>
     </article>
-    {% endfor %}
 </body>
 </html>
