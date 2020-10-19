@@ -39,6 +39,7 @@ class BlogPostTestCase(TestCase):
         c = Client()
         response = c.get('/')
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<title>Blog | Index</title>')
 
     def test_has_post(self):
         """
@@ -75,6 +76,7 @@ class BlogPostTestCase(TestCase):
         c = Client()
         response = c.get('/detail/3/')
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<title>Blog | Detail</title>')
 
     def test_has_requested_post(self):
         """

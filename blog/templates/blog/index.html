@@ -14,7 +14,7 @@
         </h2>
         <i>Posted {{ blogpost.date_created }}</i>
         <div>
-            {{ blogpost.text }}
+            {{ blogpost.text | truncatewords:50 }}
         </div>
     </article>
     {% endfor %}
