@@ -1,0 +1,10 @@
+from django.db import models
+
+
+# Create your models here.
+class BlogPost(models.Model):
+    title = models.CharField(max_length=255)
+    text = models.TextField()
+    author = models.CharField(max_length=100)  # TODO: reference User Class
+    date_created = models.DateTimeField(auto_created=True, auto_now_add=True)
+    date_publish = models.DateTimeField()
