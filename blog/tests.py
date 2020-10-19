@@ -32,5 +32,4 @@ class BlogPostTestCase(TestCase):
         c = Client()
         response = c.get('/')
         first_obj = BlogPost.objects.first()
-        self.assertContains(response, first_obj.title)
-        self.assertContains(response, str(first_obj.date_publish))
+        self.assertEqual(response.context["blogpost"], first_obj)
