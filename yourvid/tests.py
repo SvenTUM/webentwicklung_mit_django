@@ -2,18 +2,20 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 # Create your tests here.
-from yourvid.models import Category, Video, Vote
+from yourvid.models import Category, Video, Vote, Comment
 
 
 class YourvidTestCase(TestCase):
     # Load Video as Fixture
     fixtures = ['sample2.json']
 
-    # +1 User
-    # +1 Video
-    # +1 Category
-
     def setUp(self):
+        # The following has already been setup by fixtures:
+        # +1 User
+        # +1 Video
+        # +1 Category
+        vid = Video.objects.first()
+
         # Create Users
         u1 = User.objects.create(username="Foo")
         u2 = User.objects.create(username="Bar")
@@ -29,6 +31,12 @@ class YourvidTestCase(TestCase):
         Vote.objects.create(user=u1, video=Video.objects.first(), score=1)
         Vote.objects.create(user=u2, video=Video.objects.first(), score=1)
         Vote.objects.create(user=u3, video=Video.objects.first(), score=5)
+
+        # Create Comments
+        Comment.objects.create(user=u3, text="Comment 1", video=vid)
+        Comment.objects.create(user=u3, text="Comment 2", video=vid)
+        Comment.objects.create(user=u3, text="Comment 3", video=vid)
+        Comment.objects.create(user=u3, text="Comment 4", video=vid)
 
     def test_user_count(self):
         count = User.objects.count()
@@ -82,3 +90,24 @@ class YourvidTestCase(TestCase):
     def test_video_rating(self):
         obj = Video.objects.first()
         self.assertEqual(obj.rating(), 7)
+
+    def test_comment_count(self):
+        count = Comment.objects.count()
+        self.assertEqual(count, 4)
+
+    def test_comment_obj(self):
+        obj = Comment.objects.get(pk=3)
+        assert type(obj.user) is User
+        assert type(obj.video) is Video
+        self.assertEqual(obj.text, "Comment 3")
+
+    def test_comment_str(self):
+        obj = Comment.objects.get(pk=4)
+        self.assertEqual(str(obj), f"#{obj.id} - {obj.user.username} commented on {obj.video.title}")
+
+    def test_comment_links(self):
+        obj = Comment.objects.get(pk=2)
+        user = User.objects.get(username="Baz")
+        video = Video.objects.first()
+        self.assertEqual(obj.user, user)
+        self.assertEqual(obj.video, video)
