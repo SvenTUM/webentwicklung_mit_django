@@ -5,7 +5,7 @@ from .models import BlogPost
 
 
 # Create your tests here.
-class BlogPostTestCase(TestCase):
+class BlogTestCase(TestCase):
 
     def setUp(self):
         target_date = timezone.now() + timezone.timedelta(days=1)
