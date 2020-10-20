@@ -70,3 +70,15 @@ class YourvidTestCase(TestCase):
         for rating in video_ratings:
             video_score += rating.score
         self.assertEqual(video_score, 7)
+
+    def test_video_count(self):
+        count = Video.objects.count()
+        self.assertEqual(count, 1)
+
+    def test_video_str(self):
+        obj = Video.objects.first()
+        self.assertEqual(str(obj), f"{obj.video_id}-{obj.title}")
+
+    def test_video_rating(self):
+        obj = Video.objects.first()
+        self.assertEqual(obj.rating(), 7)

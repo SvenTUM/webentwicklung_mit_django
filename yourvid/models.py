@@ -31,6 +31,16 @@ class Video(models.Model):
     def __str__(self):
         return f"{self.video_id}-{self.title}"
 
+    def rating(self):
+        """
+        (int) Returns the sum of all voted scores on this Video.
+        """
+        ratings = self.ratings.all()
+        score = 0
+        for rating in ratings:
+            score += rating.score
+        return score
+
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
