@@ -1,9 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-
-# Create your views here.
 from yourvid.models import Category, Video
+# Create your views here.
 
 
 def index(request):
@@ -17,4 +16,8 @@ def index(request):
 
 
 def detail_view(request, video_id):
-    return HttpResponse('')
+    video = Video.objects.get(video_id=video_id)
+    context = {
+        'video': video,
+    }
+    return render(request, 'yourvid/detail.html', context=context)

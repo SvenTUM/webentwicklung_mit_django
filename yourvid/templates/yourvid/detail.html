@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Yourvid | Detail{% endblock %}}
+
+{% block content %}
+ <video width="80%" controls>
+  <source src="{{ video.video_file.url }}">
+Your browser does not support the video tag.
+</video>
+{% endblock %}
