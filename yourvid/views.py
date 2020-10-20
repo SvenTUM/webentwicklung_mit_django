@@ -7,7 +7,7 @@ from yourvid.models import Category, Video
 
 def index(request):
     all_categories = Category.objects.all()
-    latest_videos = Video.objects.order_by('-upload_date')
+    latest_videos = Video.objects.order_by('-upload_date')[0:20]
     context = {
         'categories': all_categories,
         'videos': latest_videos,
