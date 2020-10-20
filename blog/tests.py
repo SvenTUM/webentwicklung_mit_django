@@ -44,7 +44,7 @@ class BlogPostTestCase(TestCase):
         Page should be available to anybody.
         """
         c = Client()
-        response = c.get('/')
+        response = c.get('/blog/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<title>Blog | Index</title>')
 
@@ -53,7 +53,7 @@ class BlogPostTestCase(TestCase):
         Should render posts, who have a publish date in the past.
         """
         c = Client()
-        response = c.get('/')
+        response = c.get('/blog/')
         filtered_post = BlogPost.objects.get(pk=4)
         self.assertEqual(response.context["blogposts"][1], filtered_post)
         self.assertEqual(response.context["blogposts"].count(), 3)
@@ -63,7 +63,7 @@ class BlogPostTestCase(TestCase):
         Should render posts, who have a publish date in the past.
         """
         c = Client()
-        response = c.get('/')
+        response = c.get('/blog/')
         first_listed_post = BlogPost.objects.get(pk=5)
         self.assertEqual(response.context["blogposts"][0], first_listed_post)
 
@@ -72,8 +72,8 @@ class BlogPostTestCase(TestCase):
         Should link to it's detail page.
         """
         c = Client()
-        response = c.get('/')
-        self.assertContains(response, 'href="/detail/3/"')
+        response = c.get('/blog/')
+        self.assertContains(response, 'href="/blog/detail/3/"')
 
     # Detail
 
@@ -82,7 +82,7 @@ class BlogPostTestCase(TestCase):
         Page should be available to anybody.
         """
         c = Client()
-        response = c.get('/detail/3/')
+        response = c.get('/blog/detail/3/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<title>Blog | Detail</title>')
 
@@ -91,7 +91,7 @@ class BlogPostTestCase(TestCase):
         Should render posts, who have a publish date in the past.
         """
         c = Client()
-        response = c.get('/detail/3/')
+        response = c.get('/blog/detail/3/')
         post = BlogPost.objects.get(pk=3)
         self.assertEqual(response.context["blogpost"], post)
 
@@ -100,6 +100,6 @@ class BlogPostTestCase(TestCase):
         Should link back to landing page.
         """
         c = Client()
-        response = c.get('/detail/3/')
-        self.assertContains(response, '<a href="/">Landing Page</a>')
+        response = c.get('/blog/detail/3/')
+        self.assertContains(response, '<a class="nav-link" href="/blog/">Blog</a>')
 
