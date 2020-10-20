@@ -19,3 +19,6 @@ def detail_view(request, post_id):
         'blogpost': post,
     }
     return render(request, 'blog/detail.html', context=context)
+
+def videos_view(request):
+    return HttpResponse("Foobar")

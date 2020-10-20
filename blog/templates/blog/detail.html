@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Blog | Detail</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Blog | Detail{% endblock %}}
+
+{% block content %}
     <h1>Blog Posts</h1>
-    <nav><a href="{% url 'index' %}">Landing Page</a></nav>
+    {% for blogpost in blogposts %}
+    <h1>Blog Posts</h1>
     <article>
         <h2>{{ blogpost.title }}</h2>
         <i>Posted {{ blogpost.date_created }}</i>
@@ -14,5 +13,5 @@
             {{ blogpost.text }}
         </div>
     </article>
-</body>
-</html>
+    {% endfor %}
+{% endblock %}

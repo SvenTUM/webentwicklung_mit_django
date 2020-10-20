@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Blog | Index</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Blog | Index{% endblock %}}
+
+{% block content %}
     <h1>Blog Posts</h1>
     {% for blogpost in blogposts %}
     <article>
         <h2>
             <a href="{% url 'detail' blogpost.id %}">
-            {{ blogpost.title }}</a>
+                {{ blogpost.title }}</a>
         </h2>
         <i>Posted {{ blogpost.date_created }}</i>
         <div>
@@ -18,5 +16,4 @@
         </div>
     </article>
     {% endfor %}
-</body>
-</html>
+{% endblock %}
