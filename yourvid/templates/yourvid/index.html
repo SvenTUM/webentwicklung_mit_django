@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Yourvid | Index{% endblock %}}
+
+{% block content %}
+    <h1>Video Blog</h1>
+    {% for category in categories %}
+    {{ category.name }}
+    <br>
+    {% endfor %}
+{% endblock %}

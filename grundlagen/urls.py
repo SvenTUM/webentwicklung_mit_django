@@ -16,11 +16,13 @@ Including another URLconf
 import debug_toolbar
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import path, include
 
 from grundlagen import settings
 
 urlpatterns = [
+    path('', lambda x: redirect('/blog/')),
     path('blog/', include('blog.urls', 'blog')),
     path('videos/', include('yourvid.urls', 'yourvid')),
     path('admin/', admin.site.urls),
