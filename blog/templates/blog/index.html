@@ -7,7 +7,7 @@
     {% for blogpost in blogposts %}
     <article>
         <h2>
-            <a href="{% url 'detail' blogpost.id %}">
+            <a href="{% url 'blog:detail' blogpost.id %}">
                 {{ blogpost.title }}</a>
         </h2>
         <i>Posted {{ blogpost.date_created }}</i>
