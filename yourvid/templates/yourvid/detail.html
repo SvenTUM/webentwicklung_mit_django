@@ -10,10 +10,19 @@
 <h3>{{ video.title }}</h3>
 <p>{{ video.description }}</p>
 
-<form action="{% url 'yourvid:add-comment' video.id %}" method="POST">
+<form action="{% url 'yourvid:add-comment' video.video_id %}" method="POST">
   {% csrf_token %}
   {{ form }}
   <input type="hidden" name="video_id" value="{{ video.video_id }}">
   <button type="submit" class="btn btn-success">Comment</button>
 </form>
+
+{% for comment in video.comments.all %}
+    <div class="comment">
+      {{ comment.user.username }}
+      <br>
+      {{ comment.text }}
+    </div>
+    <hr>
+{% endfor %}
 {% endblock %}

@@ -125,6 +125,8 @@ class YourvidTestCase(TestCase):
         video = Video.objects.first()
         self.assertEqual(obj.user, user)
         self.assertEqual(obj.video, video)
+        self.assertIn(obj, user.comments.all())
+        self.assertIn(obj, video.comments.all())
 
     #
     # Views
@@ -153,6 +155,13 @@ class YourvidTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<title>Yourvid | Detail</title>')
         self.assertEqual(response.context["video"], video)
+
+    def test_detail_renders_comments(self):
+        c = Client()
+        video = Video.objects.first()
+        comment = video.comments.first()
+        response = c.get(f"/videos/detail/{video.video_id}/")
+        self.assertContains(response, comment.text)
 
     # Comment Endpoint
 
