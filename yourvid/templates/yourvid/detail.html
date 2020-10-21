@@ -3,8 +3,10 @@
 {% block title %}Yourvid | Detail{% endblock %}}
 
 {% block content %}
- <video width="80%" controls>
+<video width="80%" controls>
   <source src="{{ video.video_file.url }}">
-Your browser does not support the video tag.
+  Your browser does not support the video tag.
 </video>
+<h3>{{ video.title }}</h3>
+<p>{{ video.description }}</p>
 {% endblock %}

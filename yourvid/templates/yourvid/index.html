@@ -4,13 +4,20 @@
 
 {% block content %}
 {% for video in videos %}
-<div class="card" style="width: 18rem;">
-    <a href="{% url 'yourvid:detail' video.video_id %}"><img src="{{ video.thumbnail.url }}" class="card-img-top"></a>
-    <div class="card-body">
-        <h5 class="card-title">{{ video.title }}</h5>
-        <p class="card-text">{{ video.description | truncatewords:50 }}</p>
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <a href="{% url 'yourvid:detail' video.video_id %}"><img src="{{ video.thumbnail.url }}" class="card-img-top"></a>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ video.title }}</h5>
+          <p class="card-text">{{ video.description | truncatewords:50 }}</p>
+          <p class="card-text"><small class="text-muted">{{ video.upload_date }}</small></p>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% empty %}
 No Videos found.
 {% endfor %}
