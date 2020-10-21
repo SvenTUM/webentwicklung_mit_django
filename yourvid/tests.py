@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.test import TestCase, Client
 
 # Create your tests here.
+from yourvid.forms import CommentForm
 from yourvid.helpers import generate_random_string
 from yourvid.models import Category, Video, Vote, Comment
 
@@ -124,3 +125,23 @@ class YourvidTestCase(TestCase):
         video = Video.objects.first()
         self.assertEqual(obj.user, user)
         self.assertEqual(obj.video, video)
+
+    #
+    # Views
+    #
+
+    # Index
+
+    def test_index_response(self):
+        """
+        Page should be available to anybody.
+        """
+        c = Client()
+        response = c.get('/videos/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<title>Yourvid | Index</title>')
+
+    def test_comment_form_view(self):
+        c = Client()
+        response = c.get('/videos/comment/add')
+        self.assertEqual(response.status_code, 301)

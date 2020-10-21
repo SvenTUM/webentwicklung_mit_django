@@ -9,4 +9,10 @@
 </video>
 <h3>{{ video.title }}</h3>
 <p>{{ video.description }}</p>
+
+<form action="{% url 'yourvid:add-comment' %}" method="POST">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit" class="btn btn-success">Comment</button>
+</form>
 {% endblock %}
