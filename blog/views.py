@@ -1,10 +1,9 @@
-from django.http import HttpResponse
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from .forms import ContactForm
 from .models import BlogPost, Contact
-
 
 # Create your views here.
 def index(request):
@@ -36,7 +35,11 @@ def contact(request):
             c.last_name = form.cleaned_data["last_name"]
             c.email = form.cleaned_data["email"]
             c.save()
+            messages.success(request, "Contact creation successful.")
             return redirect("blog:index")
         else:
-            context = {'form': form}
+            context = {
+                'form': form,
+            }
+            messages.error(request, "Contact creation failed.")
             return render(request, 'blog/contact.html', context)
