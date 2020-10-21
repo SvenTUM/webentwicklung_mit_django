@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 
-from .models import BlogPost
+from .forms import ContactForm
+from .models import BlogPost, Contact
 
 
 # Create your views here.
@@ -13,6 +14,7 @@ def index(request):
     }
     return render(request, 'blog/index.html', context=context)
 
+
 def detail_view(request, post_id):
     post = BlogPost.objects.get(pk=post_id)
     context = {
@@ -20,5 +22,21 @@ def detail_view(request, post_id):
     }
     return render(request, 'blog/detail.html', context=context)
 
-def videos_view(request):
-    return HttpResponse("Foobar")
+
+def contact(request):
+    if request.method == "GET":
+        form = ContactForm()
+        context = {'form': form}
+        return render(request, 'blog/contact.html', context)
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            c = Contact()
+            c.first_name = form.cleaned_data["first_name"]
+            c.last_name = form.cleaned_data["last_name"]
+            c.email = form.cleaned_data["email"]
+            c.save()
+            return redirect("blog:index")
+        else:
+            context = {'form': form}
+            return render(request, 'blog/contact.html', context)

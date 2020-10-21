@@ -17,17 +17,21 @@ class HelpersTestCase(TestCase):
 
 class YourvidTestCase(TestCase):
     # Load Video as Fixture
-    fixtures = ['sample2.json']
+    fixtures = [
+        'users.json',
+        'videos.json',
+    ]
 
     def setUp(self):
         # The following has already been setup by fixtures:
-        # +1 User
-        # +1 Video
-        # +1 Category
+        # +2 User
+        # +3 Video
+        # +2 Category
+        # +2 Comments
         vid = Video.objects.first()
 
         # Create Users
-        u1 = User.objects.create(username="Foo")
+        u1 = User.objects.create(username="User1")
         u2 = User.objects.create(username="Bar")
         u3 = User.objects.create(username="Baz")
 
@@ -50,18 +54,18 @@ class YourvidTestCase(TestCase):
 
     def test_user_count(self):
         count = User.objects.count()
-        self.assertEqual(count, 4)
+        self.assertEqual(count, 5)
 
     def test_category_count(self):
         count = Category.objects.count()
-        self.assertEqual(count, 5)
+        self.assertEqual(count, 6)
 
     def test_category_str(self):
-        obj = Category.objects.get(pk=2)
+        obj = Category.objects.get(pk=3)
         self.assertEqual(str(obj), "Wirtschaft")
 
     def test_category_values(self):
-        obj = Category.objects.get(pk=5)
+        obj = Category.objects.last()
         # Key +1 because of fixtures
         self.assertEqual(obj.name, "Übrige Kategorien")
         self.assertEqual(obj.slug, "ubrige-kategorien")
@@ -76,7 +80,7 @@ class YourvidTestCase(TestCase):
 
     def test_vote_links(self):
         obj = Vote.objects.get(pk=1)
-        user = User.objects.get(username="Foo")
+        user = User.objects.get(username="User1")
         video = Video.objects.first()
         self.assertEqual(obj.user, user)
         self.assertEqual(obj.video, video)
@@ -95,7 +99,7 @@ class YourvidTestCase(TestCase):
 
     def test_video_count(self):
         count = Video.objects.count()
-        self.assertEqual(count, 1)
+        self.assertEqual(count, 3)
 
     def test_video_str(self):
         obj = Video.objects.first()
@@ -107,20 +111,20 @@ class YourvidTestCase(TestCase):
 
     def test_comment_count(self):
         count = Comment.objects.count()
-        self.assertEqual(count, 4)
+        self.assertEqual(count, 6)
 
     def test_comment_obj(self):
-        obj = Comment.objects.get(pk=3)
+        obj = Comment.objects.last()
         assert type(obj.user) is User
         assert type(obj.video) is Video
-        self.assertEqual(obj.text, "Comment 3")
+        self.assertEqual(obj.text, "Comment 4")
 
     def test_comment_str(self):
-        obj = Comment.objects.get(pk=4)
+        obj = Comment.objects.last()
         self.assertEqual(str(obj), f"#{obj.id} - {obj.user.username} commented on {obj.video.title}")
 
     def test_comment_links(self):
-        obj = Comment.objects.get(pk=2)
+        obj = Comment.objects.last()
         user = User.objects.get(username="Baz")
         video = Video.objects.first()
         self.assertEqual(obj.user, user)
