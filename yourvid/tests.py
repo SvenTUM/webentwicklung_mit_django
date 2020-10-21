@@ -141,7 +141,20 @@ class YourvidTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<title>Yourvid | Index</title>')
 
+    # Detail
+
+    def test_detail_response(self):
+        """
+        Page should be available to anybody.
+        """
+        c = Client()
+        video = Video.objects.first()
+        response = c.get(f"/videos/detail/{video.video_id}/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<title>Yourvid | Detail</title>')
+
     def test_comment_form_view(self):
         c = Client()
-        response = c.get('/videos/comment/add')
-        self.assertEqual(response.status_code, 301)
+        video = Video.objects.first()
+        response = c.get(f"/videos/comment/add/{video.video_id}/")
+        self.assertEqual(response.status_code, 302)

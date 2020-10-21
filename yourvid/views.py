@@ -27,10 +27,9 @@ def detail_view(request, video_id):
     return render(request, 'yourvid/detail.html', context=context)
 
 
-def comment_add(request):
+def comment_add(request, video_id):
     if request.method == "POST":
         form = CommentForm(request.POST)
-        video_id = request.POST["video_id"]
         video = Video.objects.get(video_id=video_id)
         if form.is_valid():
             Comment.objects.create(
