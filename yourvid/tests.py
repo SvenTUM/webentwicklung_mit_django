@@ -2,7 +2,16 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 # Create your tests here.
+from yourvid.helpers import generate_random_string
 from yourvid.models import Category, Video, Vote, Comment
+
+
+class HelpersTestCase(TestCase):
+    def test_generate_random_string_length(self):
+        self.assertEqual(len(generate_random_string(5)), 5)
+        self.assertEqual(len(generate_random_string(8)), 8)
+        self.assertEqual(len(generate_random_string(12)), 12)
+        self.assertEqual(len(generate_random_string(52)), 52)
 
 
 class YourvidTestCase(TestCase):
@@ -46,9 +55,13 @@ class YourvidTestCase(TestCase):
         count = Category.objects.count()
         self.assertEqual(count, 5)
 
+    def test_category_str(self):
+        obj = Category.objects.get(pk=2)
+        self.assertEqual(str(obj), "Wirtschaft")
+
     def test_category_values(self):
         obj = Category.objects.get(pk=5)
-        # Key +1 because of fictures
+        # Key +1 because of fixtures
         self.assertEqual(obj.name, "Übrige Kategorien")
         self.assertEqual(obj.slug, "ubrige-kategorien")
 
