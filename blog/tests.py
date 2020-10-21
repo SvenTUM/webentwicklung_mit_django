@@ -103,3 +103,13 @@ class BlogTestCase(TestCase):
         response = c.get('/blog/detail/3/')
         self.assertContains(response, '<a class="nav-link" href="/blog/">Blog</a>')
 
+    # Contact
+
+    def test_contact_response(self):
+        """
+        Page should be available to anybody.
+        """
+        c = Client()
+        response = c.get('/blog/contact/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<title>Contact</title>')

@@ -5,6 +5,7 @@ from django.utils import timezone
 from .forms import ContactForm
 from .models import BlogPost, Contact
 
+
 # Create your views here.
 def index(request):
     filtered_posts = BlogPost.objects.filter(date_publish__lte=timezone.now()).order_by('-date_created')
