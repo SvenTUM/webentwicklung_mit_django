@@ -31,11 +31,7 @@ def contact(request):
     else:
         form = ContactForm(request.POST)
         if form.is_valid():
-            c = Contact()
-            c.first_name = form.cleaned_data["first_name"]
-            c.last_name = form.cleaned_data["last_name"]
-            c.email = form.cleaned_data["email"]
-            c.save()
+            form.save()
             messages.success(request, "Contact creation successful.")
             return redirect("blog:index")
         else:

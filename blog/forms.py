@@ -1,7 +1,9 @@
 from django import forms
 
+from blog.models import Contact
 
-class ContactForm(forms.Form):
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    email = forms.EmailField()
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = '__all__'
