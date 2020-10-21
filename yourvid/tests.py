@@ -152,6 +152,9 @@ class YourvidTestCase(TestCase):
         response = c.get(f"/videos/detail/{video.video_id}/")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<title>Yourvid | Detail</title>')
+        self.assertEqual(response.context["video"], video)
+
+    # Comment Endpoint
 
     def test_comment_form_view(self):
         c = Client()
