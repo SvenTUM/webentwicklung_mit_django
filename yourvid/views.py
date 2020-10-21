@@ -2,7 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from yourvid.forms import CommentForm
-from yourvid.models import Category, Video
+from yourvid.models import Category, Video, Comment
+
+
 # Create your views here.
 
 
@@ -28,6 +30,13 @@ def detail_view(request, video_id):
 def comment_add(request):
     if request.method == "POST":
         form = CommentForm(request.POST)
+        video_id = request.POST["video_id"]
+        video = Video.objects.get(video_id=video_id)
         if form.is_valid():
-            pass
-    return redirect("yourvid:index")
+            Comment.objects.create(
+                user=request.user,
+                text=form.cleaned_data["text"],
+                video=video,
+            )
+            return redirect('yourvid:detail', video_id)
+    return redirect('yourvid:index')
