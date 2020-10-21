@@ -116,3 +116,4 @@ media/
 # !**/migrations
 # !**/migrations/__init__.py
 
+grundlagen/production_settings.py

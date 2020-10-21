@@ -144,3 +144,9 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+# Overwrite Settings
+try:
+    from .production_settings import *
+except:
+    print("Using development settings!")
