@@ -149,19 +149,30 @@ class YourvidTestCase(TestCase):
 
     # Detail
 
-    def test_detail_response(self):
+    def test_detail_response_logged_in(self):
         """
-        Page should be available to anybody.
+        Page should be available to logged in Users.
         """
         c = Client()
+        c.force_login(User.objects.last())
         video = Video.objects.first()
         response = c.get(f"/videos/detail/{video.video_id}/")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<title>Yourvid | Detail</title>')
         self.assertEqual(response.context["video"], video)
 
+    def test_detail_response_not_logged_in(self):
+        """
+        Page should not be available to anonymous Users.
+        """
+        c = Client()
+        video = Video.objects.first()
+        response = c.get(f"/videos/detail/{video.video_id}/")
+        self.assertEqual(response.status_code, 302)
+
     def test_detail_renders_comments(self):
         c = Client()
+        c.force_login(User.objects.last())
         video = Video.objects.first()
         comment = video.comments.first()
         response = c.get(f"/videos/detail/{video.video_id}/")

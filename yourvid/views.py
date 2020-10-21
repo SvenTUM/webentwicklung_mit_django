@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -18,6 +19,7 @@ def index(request):
     return render(request, 'yourvid/index.html', context=context)
 
 
+@login_required
 def detail_view(request, video_id):
     video = Video.objects.get(video_id=video_id)
     context = {
