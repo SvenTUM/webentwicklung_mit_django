@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.utils import timezone
 
-from .models import BlogPost
+from .models import BlogPost, Contact
 
 
 # Create your tests here.
@@ -9,7 +9,8 @@ class BlogTestCase(TestCase):
 
     def setUp(self):
         target_date = timezone.now() + timezone.timedelta(days=1)
-        # Create 2 Posts
+
+        # Create Posts
         b1 = BlogPost.objects.create(title="First Post", text="Lorem", author="Foo",
                                      date_created=timezone.now(), date_publish=target_date)
         b2 = BlogPost.objects.create(title="Second Post", text="Ipsum", author="Foo",
@@ -21,17 +22,37 @@ class BlogTestCase(TestCase):
         b5 = BlogPost.objects.create(title="Fifth Post", text="Already published Post.", author="Foo",
                                      date_created=timezone.now() - timezone.timedelta(days=-2), date_publish=timezone.now() + timezone.timedelta(days=-1))
 
-    def test_object_count(self):
+        # Create Contacts
+        Contact.objects.create(first_name="Max", last_name="Mustermann", email="max@mustermann.de")
+        Contact.objects.create(first_name="Lisa", last_name="Mustermann", email="lisa@mustermann.de")
+
+    #
+    # Models
+    #
+
+    # BlogPost
+
+    def test_blogpost_count(self):
         count = BlogPost.objects.count()
         self.assertEqual(count, 5)
 
-    def test_object_str(self):
+    def test_blogpost_str(self):
         obj = BlogPost.objects.get(pk=1)
         self.assertEqual(str(obj), "#1 - First Post")
 
-    def test_object_word_count(self):
+    def test_blogpost_word_count(self):
         obj = BlogPost.objects.get(pk=5)
         self.assertEqual(obj.word_count(), 3)
+
+    # Contact
+
+    def test_contact_count(self):
+        count = Contact.objects.count()
+        self.assertEqual(count, 2)
+
+    def test_contact_str(self):
+        obj = Contact.objects.last()
+        self.assertEqual(str(obj), "Lisa Mustermann <lisa@mustermann.de>")
 
     #
     # Views
