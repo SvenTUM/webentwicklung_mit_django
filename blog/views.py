@@ -3,7 +3,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import View
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
@@ -33,7 +33,9 @@ class CreatePost(LoginRequiredMixin, CreateView):
         'publish_date',
         'author',
     )
-    success_url = reverse_lazy('blog:retrieve-post')
+
+    def get_success_url(self):
+        return reverse('blog:retrieve-post', kwargs={'pk': self.object.pk})
 
 
 class RetrievePost(DetailView):
@@ -46,7 +48,9 @@ class UpdatePost(LoginRequiredMixin, UpdateView):
         'title',
         'text',
     )
-    success_url = reverse_lazy('blog:index')
+
+    def get_success_url(self):
+        return reverse('blog:retrieve-post', kwargs={'pk': self.object.pk})
 
 
 class DeletePost(LoginRequiredMixin, DeleteView):
