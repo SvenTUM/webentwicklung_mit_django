@@ -335,3 +335,6 @@ datengrab/media/
 .gitignore
 .pre-commit-config.yaml
 .pylintrc
+
+.envs/*
+.idea/*
