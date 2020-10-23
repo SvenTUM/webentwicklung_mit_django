@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http.response import HttpResponse
 from django.shortcuts import render
 
@@ -25,7 +25,7 @@ class StaticView(TemplateView):
     }
 
 
-class CreatePost(LoginRequiredMixin, CreateView):
+class CreatePost(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = BlogPost
     fields = (
         'title',
@@ -33,27 +33,31 @@ class CreatePost(LoginRequiredMixin, CreateView):
         'publish_date',
         'author',
     )
+    permission_required = ('blog.add_blogpost', )
 
     def get_success_url(self):
         return reverse('blog:retrieve-post', kwargs={'pk': self.object.pk})
+        # alternative with args
+        # return reverse('blog:retrieve-post', args=[self.object.pk])
 
 
 class RetrievePost(DetailView):
     model = BlogPost
 
 
-class UpdatePost(LoginRequiredMixin, UpdateView):
+class UpdatePost(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = BlogPost
     fields = (
         'title',
         'text',
     )
+    permission_required = ('blog.change_blogpost', )
 
     def get_success_url(self):
         return reverse('blog:retrieve-post', kwargs={'pk': self.object.pk})
 
 
-class DeletePost(LoginRequiredMixin, DeleteView):
+class DeletePost(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = BlogPost
     success_url = reverse_lazy('blog:index')
-
+    permission_required = ('blog.delete_blogpost', )
