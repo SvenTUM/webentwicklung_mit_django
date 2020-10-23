@@ -16,3 +16,8 @@ class BlogPost(models.Model):
 
     def word_count(self):
         return len(self.text.split())
+
+    class Meta:
+        permissions: [
+            ('publish_blogpost', 'Publish Blogposts.'),
+        ]
